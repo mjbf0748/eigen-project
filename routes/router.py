@@ -1,11 +1,15 @@
 from flask import jsonify
 import math
 import nltk
+from nltk.corpus import stopwords
+
 nltk.download('punkt')
+nltk.download('stopwords')
+
+stop_words = set(stopwords.words('english'))
 
 def tfIdf(tf, totalWords, totalDocs, docsContaining):
-        
-        #term Frquency - count/totalWords of given doc
+        #term Frquency - count/totalWords
         tf = tf / totalWords
         idf = math.log(totalDocs / docsContaining)
         score = tf * idf
@@ -14,9 +18,6 @@ def tfIdf(tf, totalWords, totalDocs, docsContaining):
 
 
 def extractWords(files):
-   
-    # words = nltk.word_tokenize(current_doc)
-    # new_words= [word for word in words if word.isalnum()]
     tokenizer = nltk.RegexpTokenizer(r"\w+")
 
     count = dict()
@@ -52,7 +53,7 @@ def extractWords(files):
     important = []
     for k, v in count.items():
         score = v['score']
-        if score > 1:
+        if score > 1 and k not in stop_words:
             important.append(
                 {'word': k, 
                 'docs': count[k]['docs'], 
