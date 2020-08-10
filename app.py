@@ -10,10 +10,7 @@ cors = CORS(app, resources={r"/api": {"origins": "*"}})
 @app.route("/api", methods=['POST'])
 def home():
     files = request.files
-    # text = myfile.read().decode()
-    # print(text)
     res = router.extractWords(files)
-    # request.args.get() or .args[] which will said bad request For query params
     return jsonify(res)
 
 if __name__ == '__main__':
