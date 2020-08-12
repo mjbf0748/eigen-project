@@ -1,6 +1,7 @@
 from flask import jsonify
 import math
 import nltk # NLP library
+import statistics
 from nltk.corpus import stopwords # Get list of stop words
 
 nltk.download('punkt')
@@ -87,22 +88,13 @@ def extractWords(files):
     #After word tfidf scores have been found, add most important words to a list and sort from highest to lowest score
     important = []
     for k, v in count.items():
-        score = v['score']
-        if score > 1 and k not in stop_words:
+        if k not in stop_words:
             important.append(
                 {'word': k, 
                 'docs': count[k]['docs'], 
                 'sentences':count[k]['sentences'],
                 'score': count[k]['score']
                 })
+    top_one_percent = math.floor(len(important)/100)
     important.sort(key=lambda json: json['score'], reverse=True)
-    
-    return important
-
-    
-
-    
-
-
-
-    
+    return important[:top_one_percent]
