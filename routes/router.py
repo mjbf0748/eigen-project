@@ -1,7 +1,6 @@
 from flask import jsonify
 import math
 import nltk # NLP library
-import statistics
 from nltk.corpus import stopwords # Get list of stop words
 
 nltk.download('punkt')
